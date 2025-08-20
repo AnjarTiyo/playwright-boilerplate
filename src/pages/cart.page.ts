@@ -1,5 +1,5 @@
 import { expect, Locator, Page } from "@playwright/test";
-import { SelectedProduct } from "./products.page";
+import { Product } from "./products.page";
 
 export class CartPage {
     readonly page: Page;
@@ -29,7 +29,7 @@ export class CartPage {
         expect(cartItems).toBeGreaterThan(0);
     }
 
-    async verifyCartItem(product: SelectedProduct) {
+    async verifyCartItem(product: Product) {
         const productTitle = this.cartItemContainer.locator(`[data-test="inventory-item-name"]`, { hasText: product.title });
 
         const productDescription = this.cartItemContainer.locator(`[data-test="inventory-item-desc"]`, { hasText: product.description });

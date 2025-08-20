@@ -1,5 +1,5 @@
 import { expect, Locator, Page } from "@playwright/test";
-import { SelectedProduct } from "./products.page";
+import { Product } from "./products.page";
 
 export class CheckoutOverviewPage {
     readonly page: Page;
@@ -14,7 +14,7 @@ export class CheckoutOverviewPage {
         this.subTotal = page.locator('//div[@data-test="subtotal-label"]');
     }
 
-    async verifyProduct(product: SelectedProduct) {
+    async verifyProduct(product: Product) {
         const productTitle = this.itemContainer.locator(`[data-test="inventory-item-name"]`, { hasText: product.title });
 
         const productDescription = this.itemContainer.locator(`[data-test="inventory-item-desc"]`, { hasText: product.description });
@@ -31,11 +31,11 @@ export class CheckoutOverviewPage {
         expect(await productPrice.textContent()).toBe(product.price);
     }
 
-    async verifyTotalPrice(selectedProducts: SelectedProduct[]) {
+    async verifyTotalPrice(selectedProducts: Product[]) {
         // Hitung subtotal yang diharapkan
         const expectedSubtotal = selectedProducts.reduce((sum, product) => {
             const price = parseFloat(product.price.replace('$', '').replace(',', ''));
-            return sum + (isNaN(price) ? 0 : price * product.qty);
+            return sum + (isNaN(price) ? 0 : price * product.qty!);
         }, 0);
 
         // Ambil dan bersihkan text subtotal dari UI

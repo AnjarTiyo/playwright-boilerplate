@@ -1,7 +1,8 @@
 import { expect, Locator, Page } from "@playwright/test";
 import { SortOptionKey, sortOptions } from "../fixtures/filter.fixture";
+import { PRODUCT_URL } from "../fixtures/url.fixture";
 
-export type SelectedProduct = {
+export type Product = {
     title: string;
     description: string;
     price: string;
@@ -47,6 +48,10 @@ export class ProductsPage {
         return this.page.locator("[data-test='inventory-item']").filter({ hasText: productName });
     }
 
+    async goTo() {
+        await this.page.goto(PRODUCT_URL);
+    }
+
     async addToCart(productName: string) {
         await this.page.locator('[data-test="inventory-item"]', {
             hasText: productName
@@ -79,7 +84,7 @@ export class ProductsPage {
         return await product.count() > 0;
     }
 
-    async getProductDetails(productName: string): Promise<SelectedProduct | null> {
+    async getProductDetails(productName: string): Promise<Product | null> {
         const product = this.getProductLocator(productName);
 
         if (!(await product.isVisible())) return null;
@@ -96,10 +101,10 @@ export class ProductsPage {
         };
     }
 
-    async getProductList(): Promise<SelectedProduct[]> {
+    async getProductList(): Promise<Product[]> {
         const items = await this.inventoryItem.all();
 
-        const products: SelectedProduct[] = [];
+        const products: Product[] = [];
         for (const item of items) {
             const title = await item.locator("[data-test='inventory-item-name']").textContent();
             const description = await item.locator("[data-test='inventory-item-desc']").textContent();
