@@ -7,7 +7,7 @@ import { verifyLogout, verifySucessfulLogin } from '../utils/assertions/auth.ass
 test.describe('Feature: Authorization', {
   tag: ['@auth', '@regression']
 }, () => {
-  test('Login as Standard User', async ({ page }) => {
+  test('@AUTH-001 - Login as Standard User', async ({ page }) => {
     const loginPage = new LoginPage(page);
 
     await test.step('Go to login page', async () => {
@@ -23,7 +23,7 @@ test.describe('Feature: Authorization', {
     })
   });
 
-  test('Logout from app will delete all state', async ({ page }) => {
+  test('@AUTH-002 - Logout from app will delete all state', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const productsPage = new ProductsPage(page);
 
