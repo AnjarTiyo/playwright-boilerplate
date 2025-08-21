@@ -1,10 +1,14 @@
 import express, { Request, Response } from "express";
+import cors from "cors";
 import bodyParser from "body-parser";
 import path from "path";
 import runRoute from "./routes/run";   // ✅ no .js extension needed
 
 const app = express();
 const PORT = 4000;
+
+// Enable CORS for all routes
+app.use(cors());
 
 app.use(bodyParser.json());
 
