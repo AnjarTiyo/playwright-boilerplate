@@ -25,6 +25,7 @@ export class ProductsPage {
     readonly addToCartButton: Locator;
     readonly removeFromCartButton: Locator;
     readonly filterButton: Locator;
+    readonly logoutButton: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -42,6 +43,7 @@ export class ProductsPage {
         this.addToCartButton = page.locator("//button[@data-test='add-to-cart']");
         this.removeFromCartButton = page.locator("//button[@data-test='remove-from-cart']");
         this.filterButton = page.locator("select[data-test='product-sort-container']");
+        this.logoutButton = page.getByRole('link', { name: 'Logout' });
     }
 
     private getProductLocator(productName: string): Locator {
@@ -124,6 +126,11 @@ export class ProductsPage {
         const selected = sortOptions[category].value;
         await this.filterButton.selectOption({ value: selected });
         await expect(this.filterButton).toHaveValue(selected);
+    }
+
+    async logout() {
+        await this.menuButton.click();
+        await this.logoutButton.click();
     }
 
     async verifyFilteredProductsOrder(category: SortOptionKey) {
